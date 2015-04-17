@@ -3,8 +3,12 @@
     <h3>
     <% @wikis.each do |wiki| %>
       <div id="wiki-<%= wiki.id %>" >
-        <%= link_to "", edit_wiki_path(wiki), class: 'glyphicon glyphicon-pencil' %>
+        <% if policy(wiki).edit? %>
+          <%= link_to "", edit_wiki_path(wiki), class: 'glyphicon glyphicon-pencil' %>
+        <% end %>
+        <% if policy(wiki).destroy? %>
         | <%= link_to "", wiki, method: :delete, remote: true, class: 'glyphicon glyphicon-trash' %> |
+        <% end %>
         <%= link_to wiki.title, wiki %> 
         </br>
         <small> 
