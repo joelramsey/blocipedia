@@ -1,0 +1,21 @@
+<div class="media"> 
+  <div class="media-body">
+    <h3>
+    <% @wikis.each do |wiki| %>
+      <div id="wiki-<%= wiki.id %>" >
+        <%= link_to "", edit_wiki_path(wiki), class: 'glyphicon glyphicon-pencil' %>
+        | <%= link_to "", wiki, method: :delete, remote: true, class: 'glyphicon glyphicon-trash' %> |
+        <%= link_to wiki.title, wiki %> 
+        </br>
+        <small> 
+          <%= image_tag(wiki.user.avatar.tiny.url) if wiki.user.avatar? %>
+            Created <%= time_ago_in_words(wiki.created_at) %> ago by
+          <%= wiki.user.user_name %>  
+        </small>
+      </br>
+      </br>
+  </div>
+      <% end %>
+      </h3>
+    </div>
+</div>

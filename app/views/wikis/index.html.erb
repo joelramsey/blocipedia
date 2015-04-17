@@ -1,11 +1,5 @@
-<h1>All Wikis</h1>
-<%= link_to "New Wiki", new_wiki_path(@wiki), class: 'btn btn-success' %>
-<% @wikis.each do |wiki| %>
-  <div class="media">
-     <div class="media-body">
-       <h4 class="media-heading">
-         <%= link_to wiki.title, wiki %>
-       </h4>
-     </div>
-   </div>
-<% end %>
+<h1> Available Wikis </h1>
+
+<%= link_to ' New', new_wiki_path, class: 'glyphicon glyphicon-plus' %>
+
+<%= render partial: 'wikis/wiki' %>
