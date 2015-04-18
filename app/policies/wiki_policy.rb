@@ -2,7 +2,7 @@ class WikiPolicy < ApplicationPolicy
 
   class Scope  
     def resolve 
-      if user.admin? || user.moderator? 
+      if user.admin? || user.premium? 
       scope.all
 
       else
@@ -18,7 +18,7 @@ class WikiPolicy < ApplicationPolicy
   end
   
   def destroy?
-    user.present? && (record.user == user || user.admin? || user.moderator?)
+    user.present? && (record.user == user || user.admin? || user.premium?)
   end
 
 end

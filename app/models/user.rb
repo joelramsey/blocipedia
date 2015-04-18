@@ -2,6 +2,12 @@ class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   
+  after_initialize :init
+
+    def init
+      self.role  ||= 'standard'  #will set the default value only if it's nil
+    end
+  
   has_many :wikis
   
   mount_uploader :avatar, AvatarUploader
@@ -10,8 +16,8 @@ class User < ActiveRecord::Base
    role == 'admin'
   end
  
-  def moderator?
-   role == 'moderator'
+  def premium?
+    role == 'premium'
   end
   
   devise :database_authenticatable, :registerable,
