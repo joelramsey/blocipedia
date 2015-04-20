@@ -55,15 +55,24 @@
       </div>
     <% end %>
 
+   <% if current_user.role == 'premium' %>
+    <h3> Downgrade to Standard membership </h3>
+    <div class="form-group">
+      <p><%=button_to "Downgrade", users_downgrade_path(@user), class: 'btn btn-danger', data: { confirm: "Are you sure?" } %></p>
+      
+      <% else %>
+      
+      <% if current_user.role == 'standard' %>
+    <h3> Upgrade to Premium membership </h3>
+    <div class="form-group">
+      <p><%= button_to "Upgrade", charges_path, class: 'btn btn-success' %></p>
+    <% end %> 
+ <% end %>
+    
     <h3>Cancel my account</h3>
     <div class="form-group">
         <p><%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, class: 'btn btn-danger' %></p>
     </div>
   </div>
 </div>
-<p>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete %></p>
 
-<%= link_to "Back", :back %>
-<p>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete %></p>
-
-<%= link_to "Back", :back %>

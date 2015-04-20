@@ -20,6 +20,18 @@ class User < ActiveRecord::Base
     role == 'premium'
   end
   
+  def standard?
+    role == 'standard'
+  end
+  
+  def upgrade_to_premium
+    update_attributes(role: "premium")
+  end
+
+  def downgrade_to_standard
+    update_attributes(role: "standard")
+  end
+  
   devise :database_authenticatable, :registerable,
   :recoverable, :rememberable, :trackable, :validatable, :confirmable
 end

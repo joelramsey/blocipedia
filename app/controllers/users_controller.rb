@@ -15,6 +15,14 @@ class UsersController < ApplicationController
      @user = User.find(params[:id])
     
   end
+  
+  def downgrade
+   
+    current_user.downgrade_to_standard
+    current_user.save
+    flash[:success] = "Thanks for your contribution, #{current_user.email}! Feel free to return to your premium membership anytime."
+    redirect_to wikis_path
+  end
  
    private
  
