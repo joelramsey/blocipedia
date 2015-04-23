@@ -6,16 +6,10 @@
        <%= link_to wiki.title, wiki %> 
         </br>
         <small> 
-          <% if policy(wiki).edit? %>
-            <%= link_to "", edit_wiki_path(wiki), class: 'glyphicon glyphicon-pencil' %>
-          <% end %>
-          <% if policy(wiki).destroy? %>
-            | <%= link_to "", wiki, method: :delete, remote: true, class: 'glyphicon glyphicon-trash' %> |
-          <% end %>
           <%= image_tag(wiki.user.avatar.tiny.url) if wiki.user.avatar? %>
           Created <%= time_ago_in_words(wiki.created_at) %> ago by
           <%= wiki.user.user_name %>  
-        </small>
+      </small>
         <hr />
      </div>
       <% end %>

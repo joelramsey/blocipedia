@@ -14,7 +14,7 @@ class WikiPolicy < ApplicationPolicy
 
   
   def index?
-    user.admin? || user.id?
+    true
   end
   
   def destroy?

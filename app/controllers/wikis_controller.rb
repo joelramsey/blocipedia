@@ -1,7 +1,11 @@
 class WikisController < ApplicationController
   def index   
-    @wikis = Wiki.all
+    if current_user.role == 'standard'
+      @wikis = Wiki.where(private: false)
+    else
+      @wikis = Wiki.all
     authorize @wikis
+    end
   end
 
   def show
