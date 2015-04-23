@@ -1,6 +1,6 @@
 <div id="wiki-<%= @wiki.id %>" >
   <h3>
-    <%= @wiki.title %>
+    <%= markdown_to_html @wiki.title %>
   </h3>
     <small> 
           | <%= link_to "", edit_wiki_path(@wiki), class: 'glyphicon glyphicon-pencil' %>
@@ -13,6 +13,6 @@
      </small>
   </br>
 </br>
-     <p><%= @wiki.body %></p>
+     <p><%= markdown_to_html @wiki.body %></p>
 </div>
  
