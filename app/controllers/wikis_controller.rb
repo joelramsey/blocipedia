@@ -1,81 +1,81 @@
 class WikisController < ApplicationController
-  def index   
-    if current_user.role == 'standard'
-      @wikis = Wiki.where(private: false)
-    else
-      @wikis = Wiki.all
-    authorize @wikis
-    end
+
+  before_action :find_wiki, except: [:new, :create, :index]
+
+  def index
+    @wikis = policy_scope(Wiki)
   end
 
   def show
-    @user = current_user
-    @wiki = Wiki.find(params[:id])
-    authorize @wiki
+    @collaborators = @wiki.collaborators
   end
 
   def new
-    @user = current_user
+    @users = User.all
     @wiki = Wiki.new
     authorize @wiki
   end
   
   def create
-    @user = current_user
-    @wiki = current_user.wikis.build(wiki_params)
+    @wiki = current_user.wikis.build( wiki_params )
+    @user = @wiki.user
     authorize @wiki
-   
-     if @wiki.save
-       flash[:notice] = "Wiki was saved."
-       redirect_to @wiki
-     else
-       flash[:error] = "There was an error saving your wiki. Please try again."
-       render :new
-     end
-   end
 
-  def edit
-    @user = current_user
-    @wiki = Wiki.find(params[:id])
-    authorize @wiki
-  end
-  
-  def update
-    @user = current_user
-    @wiki = Wiki.find(params[:id])
-    authorize @wiki
-       
-    if @wiki.update_attributes(wiki_params)
-      flash[:notice] = "Wiki was successfully updated."
-      redirect_to action: 'index'
-      
+    if @wiki.save
+      flash[:notice] = "Wiki was sucessfully created"
+      redirect_to @user
     else
-      flash[:alert] = "Error updating wiki."
-      redirect_to action: 'index'
+      flash[:error] = "Wiki could not be saved, please try again"
+      render :new
     end
   end
-  
+
+  def edit
+    @user = @wiki.user
+    @users = User.all
+  end
+
+  def update
+    @user = @wiki.user
+
+    if @wiki.update_attributes( wiki_params )
+      flash[:notice] = "Wiki was successfully updated"
+      redirect_to @wiki
+
+    else
+      flash[:error] = "Wiki could not be updated, please try again"
+      render :edit
+    end
+  end
+
   def destroy
-     @wiki = Wiki.find(params[:id])
-     authorize @wiki
-    
-     if @wiki.destroy
-       flash[:notice] = "\"#{@wiki.title}\" was deleted successfully."
-       
-     else
-       flash[:error] = "There was an error deleting the wiki."
-       
-     end
+    @user = @wiki.user
+
+    if @wiki.destroy
+      flash[:notice] = "Wiki was successfully deleted"
+      
+    else
+      flash[:error] = "Wiki could not be deleted, please try again"
+      
+    end
     respond_to do |format|
        format.html
        format.js
      end
-   end
+  end
   
-  
+    
+
+
   private
-  
+
+  def find_wiki
+    @wiki = Wiki.find(params[:id])
+    authorize @wiki
+    @wiki
+  end
+
   def wiki_params
-    params.require(:wiki).permit(:title, :body, :private)
-   end
+    params.require(:wiki).permit(:title, :body, :private, collaborator_ids:[])
+  end
 end

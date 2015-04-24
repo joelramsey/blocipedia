@@ -1,6 +1,2 @@
-<h1> Available Wikis </h1>
-<%=link_to "New", new_wiki_path, class: 'glyphicon glyphicon-plus' %>
-
-<%#= link_to ' New', new_wiki_path, class: 'glyphicon glyphicon-plus' %>
-
-<%= render partial: 'wikis/wiki' %>
+<h1>Wikis</h1>
+<%= render @wikis %>

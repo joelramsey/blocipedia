@@ -1,16 +1,12 @@
 class User < ActiveRecord::Base
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable and :omniauthable
-  
-  after_initialize :init
-
-    def init
-      self.role  ||= 'standard'  #will set the default value only if it's nil
-    end
   
   has_many :wikis
+  has_many :collaborations
+  has_many :collaborated_wikis, through: :collaborations, source: :wiki
   
   mount_uploader :avatar, AvatarUploader
+  
+  after_create :initialize_user
   
   def admin?
    role == 'admin'
@@ -22,6 +18,10 @@ class User < ActiveRecord::Base
   
   def standard?
     role == 'standard'
+  end
+  
+  def initialize_user
+    self.update_attributes(role: 'standard')
   end
   
   def upgrade_to_premium
