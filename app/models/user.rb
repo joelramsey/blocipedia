@@ -21,7 +21,7 @@ class User < ActiveRecord::Base
   end
   
   def initialize_user
-    self.update_attributes(role: 'standard')
+    update_attributes(role: 'standard')
   end
   
   def upgrade_to_premium
