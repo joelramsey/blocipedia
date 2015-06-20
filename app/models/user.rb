@@ -4,8 +4,6 @@ class User < ActiveRecord::Base
   has_many :collaborations
   has_many :collaborated_wikis, through: :collaborations, source: :wiki
   
-  mount_uploader :avatar, AvatarUploader
-  
   after_create :initialize_user
   
   def admin?
