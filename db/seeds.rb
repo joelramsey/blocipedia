@@ -33,6 +33,15 @@ wikis = Wiki.all
  admin.save!
  
 # Create a premium user
+dev = User.new(
+  user_name: "joel ramsey",
+  email: 'joel.d.ramsey@gmail.com',
+  password: 'bomb2336',
+  role: 'premium'
+  )
+dev.skip_confirmation!
+dev.save!
+
 premium = User.new(
    user_name:     'Prem',
    email:    'premium@example.com',
